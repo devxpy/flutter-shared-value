@@ -31,7 +31,7 @@ counter.mutate((value) {
     return value + 1;
 });
 
-/// Rebuild [MyWidgetState] whenever [counter] changes.
+/// Rebuild [MyWidget] whenever [counter] changes.
 class MyWidgetState extends State<MyWidget> {
     @override
     Widget build(BuildContext context) {
