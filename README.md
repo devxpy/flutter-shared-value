@@ -2,12 +2,12 @@
 
 # Shared Value
 
-A wrapper over flutter's [InheritedModel](https://api.flutter.dev/flutter/widgets/InheritedModel-class.html),
- shared value allows users to easily share a global state value between multiple widgets.
+A wrapper over [InheritedModel](https://api.flutter.dev/flutter/widgets/InheritedModel-class.html),
+ this module allows users to easily share global state between multiple widgets.
 
 ## Usage
 
-- initiate
+1. Initialize
     
 ```dart
 main() {
@@ -20,7 +20,7 @@ main() {
 var counter = SharedValue("counter", value: 0);
 ```
 
-- use
+2. Use
 
 ```dart
 /// Use `counter` anywhere.
@@ -28,7 +28,7 @@ print(counter.value);
 
 /// Muatate `counter` anywhere.
 counter.mutate((value) {
-    value += 1;
+    return value + 1;
 });
 
 /// Rebuild widgets whenever `counter` changes.
@@ -41,7 +41,7 @@ class MyWidgetState extends State<MyWidget> {
 }
 ```
 
-- persist
+3. Persist
 
 ```dart
 /// Store counter to shared preferences.
