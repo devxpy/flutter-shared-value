@@ -11,13 +11,13 @@ A wrapper over flutter's [InheritedModel](https://api.flutter.dev/flutter/widget
     
 ```dart
 main() {
-    /// Insert Global State into the widget tree.
-    runApp(GlobalState.wrapApp(MyApp()));
+    /// Insert Shared Value into the widget tree.
+    runApp(SharedValue.wrapApp(MyApp()));
 }
 
-/// Create a Global State object that holds the value of a counter.
+/// Create a Shared Value object that holds the value of a counter.
 /// ("counter" is used as key for shared_preferences).
-var counter = GlobalState("counter", value: 0);
+var counter = SharedValue("counter", value: 0);
 ```
 
 - use

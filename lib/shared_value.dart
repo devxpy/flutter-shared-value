@@ -17,7 +17,7 @@ class SharedValue<T> {
   static StateManagerWidgetState stateManager;
   static Map<SharedValue, double> stateNonceMap = {};
 
-  /// Initalize Global State.
+  /// Initalize Shared value.
   ///
   /// Internally, this inserts an [InheritedModel] widget into the widget tree.
   static Widget wrapApp(Widget app) {
@@ -43,7 +43,7 @@ class SharedValue<T> {
   /// Get the value held by this state,
   /// and also rebuild the widget in [context] whenever [mutate] is called.
   T of(BuildContext context) {
-    InheritedModel.inheritFrom<GlobalStateInheritedModel>(
+    InheritedModel.inheritFrom<SharedValueInheritedModel>(
       context,
       aspect: this,
     );
@@ -70,13 +70,13 @@ class SharedValue<T> {
 
     if (stateManager == null) {
       throw FlutterError.fromParts([
-        ErrorSummary("GlobalState was not initalized."),
+        ErrorSummary("SharedValue was not initalized."),
         ErrorHint(
-          "Did you forget to call GlobalState.wrapApp()?\n"
+          "Did you forget to call SharedValue.wrapApp()?\n"
           "If so, please do it once,"
-          "alongside runApp() so that GlobalState can be initalized for you application.\n"
+          "alongside runApp() so that SharedValue can be initalized for you application.\n"
           "Example:\n"
-          "\trunApp(GlobalState.wrapApp(MyApp()))",
+          "\trunApp(SharedValue.wrapApp(MyApp()))",
         )
       ]);
     }

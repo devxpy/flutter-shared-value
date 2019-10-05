@@ -28,13 +28,13 @@ class StateManagerWidgetState extends State<StateManagerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return GlobalStateInheritedModel(
+    return SharedValueInheritedModel(
       child: widget.child,
       // IMPORTANT!
       // A copy of stateNonceMap must be provided here.
       //
       // If the same object is passed,
-      // then GlobalStateInheritedModel won't be able to compare nonce values,
+      // then SharedValueInheritedModel won't be able to compare nonce values,
       // since the mutations will be propagated throughout the code path.
       stateNonceMap: Map.of(widget.stateNonceMap),
     );

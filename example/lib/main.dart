@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:global_state/shared_value.dart';
 
-// A global state that is shared across many widgets.
+// A shared value can be shared across many widgets.
 // The "counter" String is used as a key for shared preferences.
 var counter = SharedValue("counter", value: 0);
 
