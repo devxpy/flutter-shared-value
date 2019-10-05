@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:global_state/shared_value.dart';
+import 'package:shared_value/shared_value.dart';
 
 // A shared value can be shared across many widgets.
 // The "counter" String is used as a key for shared preferences.

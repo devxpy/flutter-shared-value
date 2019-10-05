@@ -20,7 +20,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  global_state:
+  shared_value:
     path: ..
 
   # The following adds the Cupertino Icons font to your application.

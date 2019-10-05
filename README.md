@@ -1,4 +1,4 @@
-[![pub package](https://img.shields.io/pub/v/global_state.svg?style=for-the-badge)](https://pub.dartlang.org/packages/global_state)
+[![pub package](https://img.shields.io/pub/v/shared_value.svg?style=for-the-badge)](https://pub.dartlang.org/packages/shared_value)
 
 # Shared Value
 

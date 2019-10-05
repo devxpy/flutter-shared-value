@@ -1,4 +1,4 @@
-library global_state;
+library shared_value;
 
 import 'dart:async';
 import 'dart:convert';
