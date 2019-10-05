@@ -23,15 +23,15 @@ var counter = SharedValue("counter", value: 0);
 2. Use
 
 ```dart
-/// Use `counter` anywhere.
+/// Use [counter] anywhere.
 print(counter.value);
 
-/// Muatate `counter` anywhere.
+/// Muatate [counter] anywhere.
 counter.mutate((value) {
     return value + 1;
 });
 
-/// Rebuild widgets whenever `counter` changes.
+/// Rebuild [MyWidgetState] whenever [counter] changes.
 class MyWidgetState extends State<MyWidget> {
     @override
     Widget build(BuildContext context) {
@@ -44,9 +44,9 @@ class MyWidgetState extends State<MyWidget> {
 3. Persist
 
 ```dart
-/// Store counter to shared preferences.
+/// Store [counter] value to shared preferences.
 counter.load();
 
-/// Load counter's value from shared preferences.
+/// Load [counter] value from shared preferences.
 counter.store();
 ```
