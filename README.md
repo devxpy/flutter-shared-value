@@ -1,6 +1,13 @@
 [![pub package](https://img.shields.io/pub/v/global_state.svg?style=for-the-badge)](https://pub.dartlang.org/packages/global_state)
 
-# global_state
+# Shared Value
+
+A wrapper over flutter's [InheritedModel](https://api.flutter.dev/flutter/widgets/InheritedModel-class.html),
+ shared value allows users to easily share a global state value between multiple widgets.
+
+## Usage
+
+- initiate
     
 ```dart
 main() {
@@ -12,6 +19,8 @@ main() {
 /// ("counter" is used as key for shared_preferences).
 var counter = GlobalState("counter", value: 0);
 ```
+
+- use
 
 ```dart
 /// Use `counter` anywhere.
@@ -31,6 +40,8 @@ class MyWidgetState extends State<MyWidget> {
     }
 }
 ```
+
+- persist
 
 ```dart
 /// Store counter to shared preferences.

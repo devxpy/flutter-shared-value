@@ -12,10 +12,10 @@ import 'manager_widget.dart';
 
 typedef T SetStateCallback<T>(T value);
 
-class GlobalState<T> {
+class SharedValue<T> {
   static var random = Random();
   static StateManagerWidgetState stateManager;
-  static Map<GlobalState, double> stateNonceMap = {};
+  static Map<SharedValue, double> stateNonceMap = {};
 
   /// Initalize Global State.
   ///
@@ -32,7 +32,7 @@ class GlobalState<T> {
   /// The key to use for storing this value in shared preferences.
   String prefKey;
 
-  GlobalState(this.prefKey, {T value}) {
+  SharedValue(this.prefKey, {T value}) {
     _value = value;
     _updateNonce();
   }

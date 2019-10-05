@@ -1,9 +1,9 @@
 import 'package:flutter/widgets.dart';
 
-import 'global_state.dart';
+import 'shared_value.dart';
 
-class GlobalStateInheritedModel extends InheritedModel<GlobalState> {
-  final Map<GlobalState, double> stateNonceMap;
+class GlobalStateInheritedModel extends InheritedModel<SharedValue> {
+  final Map<SharedValue, double> stateNonceMap;
 
   const GlobalStateInheritedModel({
     Key key,
@@ -19,7 +19,7 @@ class GlobalStateInheritedModel extends InheritedModel<GlobalState> {
   @override
   bool updateShouldNotifyDependent(
     GlobalStateInheritedModel oldWidget,
-    Set<GlobalState> dependencies,
+    Set<SharedValue> dependencies,
   ) {
     for (var state in dependencies) {
       // Compare the nonce value of this GlobalState,

@@ -1,12 +1,12 @@
 import 'package:flutter/widgets.dart';
 
-import 'global_state.dart';
+import 'shared_value.dart';
 import 'inherited_model.dart';
 
 class StateManagerWidget extends StatefulWidget {
   final Widget child;
   final StateManagerWidgetState state;
-  final Map<GlobalState, double> stateNonceMap;
+  final Map<SharedValue, double> stateNonceMap;
 
   const StateManagerWidget(
     this.child,

@@ -1,4 +1,4 @@
-name: global_state
+name: shared_value
 description: A straightforward way to manage global state in flutter apps.
 version: 0.0.1
 author: Dev Aggarwal <devpxy@gmail.com>
