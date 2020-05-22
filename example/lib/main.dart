@@ -54,9 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<void> _incrementCounter() async {
     // The mutate() function updates the internal value of the counter,
     // and rebuilds all widgets that called `counter.of()`
-    counter.mutate((value) {
-      return value + 1;
-    });
+    counter.mutate((value) => value + 1);
 
     // Save the internal value of counter to shared preferences.
     await counter.save();

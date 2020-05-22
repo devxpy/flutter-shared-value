@@ -26,7 +26,7 @@ class SharedValueInheritedModel extends InheritedModel<SharedValue> {
       // with an older nonce value of the same SharedValue object.
       //
       // If the nonce values are not same,
-      // we assume that the internal state value must have changed as well.
+      // rebuild the widget
       if (state.nonce != oldWidget.stateNonceMap[state]) {
         return true;
       }

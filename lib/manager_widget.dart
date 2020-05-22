@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 
-import 'shared_value.dart';
 import 'inherited_model.dart';
+import 'shared_value.dart';
 
 class StateManagerWidget extends StatefulWidget {
   final Widget child;
@@ -23,7 +23,9 @@ class StateManagerWidget extends StatefulWidget {
 
 class StateManagerWidgetState extends State<StateManagerWidget> {
   void rebuild() {
-    setState(() {});
+    try {
+      setState(() {});
+    } catch (_) {}
   }
 
   @override
