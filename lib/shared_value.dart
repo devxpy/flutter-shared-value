@@ -84,8 +84,8 @@ class SharedValue<T> {
 
   /// A stream of [value]s that gets updated everytime the internal value is changed.
   Stream get stream {
-    _controller ??= StreamController();
-    return _controller.stream.asBroadcastStream();
+    _controller ??= StreamController.broadcast();
+    return _controller.stream;
   }
 
   /// Update [value] using the return value of [fn],
