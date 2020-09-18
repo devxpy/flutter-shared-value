@@ -34,7 +34,7 @@ class SharedValue<T> {
 
   SharedValue({this.key, T value}) {
     _value = value;
-    _updateNonce();
+    _update(rebuild: false);
   }
 
   /// The value held by this state.
@@ -42,7 +42,6 @@ class SharedValue<T> {
 
   /// Update [value] and rebuild the dependent widgets if it changed.
   set value(T newValue) {
-    _controller?.add(newValue);
     if (newValue == _value) return;
     setState(() {
       _value = newValue;
@@ -66,8 +65,13 @@ class SharedValue<T> {
 
     var ret = fn?.call();
 
-    _updateNonce();
-    stateManager.rebuild();
+    if (ret is Future) {
+      ret.then((_) {
+        _update();
+      });
+    } else {
+      _update();
+    }
 
     return ret;
   }
@@ -83,7 +87,7 @@ class SharedValue<T> {
   }
 
   /// A stream of [value]s that gets updated everytime the internal value is changed.
-  Stream get stream {
+  Stream<T> get stream {
     _controller ??= StreamController.broadcast();
     return _controller.stream;
   }
@@ -94,9 +98,18 @@ class SharedValue<T> {
     value = fn(_value);
   }
 
-  void _updateNonce() {
+  void _update({rebuild: true}) {
+    // update the nonce
     nonce = random.nextDouble();
     stateNonceMap[this] = nonce;
+
+    if (rebuild) {
+      // rebuild state manger widget
+      stateManager.rebuild();
+    }
+
+    // add value to stream
+    _controller?.add(value);
   }
 
   /// Try to load the value stored at [key] in shared preferences.
