@@ -32,9 +32,20 @@ class SharedValue<T> {
   /// The key to use for storing this value in shared preferences.
   final String key;
 
-  SharedValue({this.key, T value}) {
+  /// automatically save to shared preferences when the value changes
+  final bool autosave;
+
+  SharedValue({this.key, T value, this.autosave = false}) {
     _value = value;
     _update(rebuild: false);
+  }
+
+  /// Alias for [value]
+  T get $ => value;
+
+  /// Alias for [value]
+  set $(T newValue) {
+    value = newValue;
   }
 
   /// The value held by this state.
@@ -110,12 +121,17 @@ class SharedValue<T> {
 
     // add value to stream
     _controller?.add(value);
+
+    if (autosave) {
+      save();
+    }
   }
 
   /// Try to load the value stored at [key] in shared preferences.
   /// If no value is found, return immediately.
   /// Else, udpdate [value] and rebuild dependent widgets if it changed.
   Future<void> load() async {
+    assert(key != null);
     var pref = await SharedPreferences.getInstance();
     var str = pref.getString(key);
     if (str == null) return;
@@ -124,16 +140,17 @@ class SharedValue<T> {
 
   /// Store the current [value] at [key] in shared preferences.
   Future<void> save() async {
+    assert(key != null);
     var pref = await SharedPreferences.getInstance();
     await pref.setString(key, serialize(_value));
   }
 
-  /// serialize [obj] of type [T].
+  /// serialize [obj] of type [T] for shared preferences.
   String serialize(T obj) {
     return jsonEncode(obj);
   }
 
-  /// desrialize [str] to an obj of type [T].
+  /// desrialize [str] to an obj of type [T] for shared preferences.
   T deserialize(String str) {
     return jsonDecode(str) as T;
   }

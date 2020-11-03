@@ -23,9 +23,14 @@ class StateManagerWidget extends StatefulWidget {
 
 class StateManagerWidgetState extends State<StateManagerWidget> {
   void rebuild() {
+    if (!mounted) return;
     try {
       setState(() {});
-    } catch (_) {}
+    } catch (_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        setState(() {});
+      });
+    }
   }
 
   @override

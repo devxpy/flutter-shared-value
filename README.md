@@ -35,8 +35,8 @@ class MyWidgetState extends State<MyWidget> {
     @override
     Widget build(BuildContext context) {
 
-        // supply [counter] the `BuildContext` to rebuild widget
-        counterValue = counter.of(context);
+        // The .of(context) bit makes this widget rebuild everytime counter is changed
+        int counterValue = counter.of(context);
 
         return Text("Counter: $counterValue");
     }
@@ -59,5 +59,3 @@ await counter.load();
 ## Efficiency
 
 Shared value is smart enough to only rebuild the widget that is using the shared value that was updated. No more, no less.
-
-

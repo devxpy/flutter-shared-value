@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:shared_value/shared_value.dart';
 
-// This SharedValue can be shared from any number of widgets.
-final counter = SharedValue(
+// This global SharedValue can be shared across the entire app
+final SharedValue<int> counter = SharedValue(
   value: 0, // initial value
   key: "counter", // disk storage key for shared_preferences
+  autosave: true, // autosave to shared prefs when value changes
 );
 
-void main() {
-  runApp(SharedValue.wrapApp(MyApp()));
+Future<void> main() async {
+  runApp(SharedValue.wrapApp(MyApp())); //  don't forget this!
 }
 
 class MyApp extends StatelessWidget {
@@ -39,7 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     // The .of(context) bit makes this widget rebuild everytime counter is changed
-    var counterValue = counter.of(context);
+    int counterValue = counter.of(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -71,16 +72,11 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
 
-    // Load the previously stored value of counter to disk using shared_preferences
-    counter.load();
+    counter.load(); // load previous value from shared prefs
   }
 
   Future<void> _incrementCounter() async {
-    setState(() {});
     // update counter value and rebuild all widgets using that value
     counter.update((value) => value + 1);
-
-    // Save the internal value of counter to disk using shared_preferences
-    await counter.save();
   }
 }
