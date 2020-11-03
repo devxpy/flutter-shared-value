@@ -41,6 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     // The .of(context) bit makes this widget rebuild everytime counter is changed
     int counterValue = counter.of(context);
+    counter.value = counterValue;
 
     return Scaffold(
       appBar: AppBar(
@@ -72,7 +73,8 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
 
-    counter.load(); // load previous value from shared prefs
+    // load previous value from shared prefs
+    counter.load();
   }
 
   Future<void> _incrementCounter() async {

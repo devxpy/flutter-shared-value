@@ -5,7 +5,7 @@
 A wrapper over [InheritedModel](https://api.flutter.dev/flutter/widgets/InheritedModel-class.html),
  this module allows users to easily share global state between multiple widgets.
 
-It's a no-boilerplate generalization of the `Provider` state management solution.
+It's a low-boilerplate generalization of the `Provider` state management solution.
 
 ## Usage
 
