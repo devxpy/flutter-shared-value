@@ -53,7 +53,6 @@ class SharedValue<T> {
 
   /// Update [value] and rebuild the dependent widgets if it changed.
   set value(T newValue) {
-    if (newValue == _value) return;
     setState(() {
       _value = newValue;
     });
@@ -74,7 +73,7 @@ class SharedValue<T> {
       ]);
     }
 
-    var ret = fn?.call();
+    R ret = fn?.call();
 
     if (ret is Future) {
       ret.then((_) {
@@ -132,8 +131,8 @@ class SharedValue<T> {
   /// Else, udpdate [value] and rebuild dependent widgets if it changed.
   Future<void> load() async {
     assert(key != null);
-    var pref = await SharedPreferences.getInstance();
-    var str = pref.getString(key);
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    String str = pref.getString(key);
     if (str == null) return;
     value = deserialize(str);
   }
@@ -141,7 +140,7 @@ class SharedValue<T> {
   /// Store the current [value] at [key] in shared preferences.
   Future<void> save() async {
     assert(key != null);
-    var pref = await SharedPreferences.getInstance();
+    SharedPreferences pref = await SharedPreferences.getInstance();
     await pref.setString(key, serialize(_value));
   }
 

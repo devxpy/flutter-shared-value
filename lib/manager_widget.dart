@@ -9,11 +9,12 @@ class StateManagerWidget extends StatefulWidget {
   final StateManagerWidgetState state;
   final Map<SharedValue, double> stateNonceMap;
 
-  const StateManagerWidget(this.child,
-      this.state,
-      this.stateNonceMap, {
-        Key key,
-      }) : super(key: key);
+  const StateManagerWidget(
+    this.child,
+    this.state,
+    this.stateNonceMap, {
+    Key key,
+  }) : super(key: key);
 
   @override
   StateManagerWidgetState createState() {

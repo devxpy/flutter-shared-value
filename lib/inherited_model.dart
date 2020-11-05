@@ -11,23 +11,22 @@ class SharedValueInheritedModel extends InheritedModel<SharedValue> {
     @required this.stateNonceMap,
   }) : super(key: key, child: child);
 
+  // fallback to updateShouldNotifyDependent()
   @override
-  bool updateShouldNotify(InheritedWidget oldWidget) {
-    return true;
-  }
+  bool updateShouldNotify(InheritedWidget oldWidget) => true;
 
   @override
   bool updateShouldNotifyDependent(
     SharedValueInheritedModel oldWidget,
     Set<SharedValue> dependencies,
   ) {
-    for (var state in dependencies) {
+    for (SharedValue sharedValue in dependencies) {
       // Compare the nonce value of this SharedValue,
       // with an older nonce value of the same SharedValue object.
       //
       // If the nonce values are not same,
       // rebuild the widget
-      if (state.nonce != oldWidget.stateNonceMap[state]) {
+      if (sharedValue.nonce != oldWidget.stateNonceMap[sharedValue]) {
         return true;
       }
     }
