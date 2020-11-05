@@ -3,7 +3,7 @@
 # Shared Value
 
 A wrapper over [InheritedModel](https://api.flutter.dev/flutter/widgets/InheritedModel-class.html),
- this module allows users to easily manage global state in your flutter apps.
+ this module allows you to easily manage global state in flutter apps.
 
 At a high level, `SharedValue` puts your variables in an intelligent "container" that is flutter-aware.
 
