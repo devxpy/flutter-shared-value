@@ -1,3 +1,4 @@
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 
 import 'inherited_model.dart';
@@ -8,12 +9,11 @@ class StateManagerWidget extends StatefulWidget {
   final StateManagerWidgetState state;
   final Map<SharedValue, double> stateNonceMap;
 
-  const StateManagerWidget(
-    this.child,
-    this.state,
-    this.stateNonceMap, {
-    Key key,
-  }) : super(key: key);
+  const StateManagerWidget(this.child,
+      this.state,
+      this.stateNonceMap, {
+        Key key,
+      }) : super(key: key);
 
   @override
   StateManagerWidgetState createState() {
@@ -22,10 +22,9 @@ class StateManagerWidget extends StatefulWidget {
 }
 
 class StateManagerWidgetState extends State<StateManagerWidget> {
-  void rebuild() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) setState(() {});
-    });
+  Future<void> rebuild() async {
+    await SchedulerBinding.instance.endOfFrame;
+    if (mounted) setState(() {});
   }
 
   @override

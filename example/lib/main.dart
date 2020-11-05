@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:shared_value/shared_value.dart';
 
@@ -8,11 +10,18 @@ final SharedValue<int> counter = SharedValue(
   autosave: true, // autosave to shared prefs when value changes
 );
 
+final SharedValue<Duration> randomValue = SharedValue();
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // load previous value from shared prefs
   counter.load();
+
+  DateTime startedAt = DateTime.now();
+  Timer.periodic(Duration(milliseconds: 50), (timer) {
+    randomValue.$ = DateTime.now().difference(startedAt);
+  });
 
   runApp(
     // don't forget this!
@@ -44,6 +53,10 @@ class MyApp extends StatelessWidget {
                 'You have pushed the button this many times:',
               ),
               CounterText(),
+              Padding(
+                padding: const EdgeInsets.all(32),
+                child: RandomText(),
+              ),
             ],
           ),
         ),
@@ -56,10 +69,10 @@ class MyApp extends StatelessWidget {
 class CounterText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    print("CounterText.build()");
-
     // The .of(context) bit makes this widget rebuild automatically
     int counterValue = counter.of(context);
+
+    print("CounterText.build() - $counterValue");
 
     return Text(
       '$counterValue',
@@ -83,5 +96,12 @@ class CounterButton extends StatelessWidget {
   void _incrementCounter() {
     // update counter value and rebuild widgets
     counter.$ += 1;
+  }
+}
+
+class RandomText extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Text("Your time here: ${randomValue.of(context)}");
   }
 }
