@@ -3,43 +3,51 @@
 # Shared Value
 
 A wrapper over [InheritedModel](https://api.flutter.dev/flutter/widgets/InheritedModel-class.html),
- this module allows users to easily share global state between multiple widgets.
+ this module allows users to easily manage global state in your flutter apps.
 
-It's a low-boilerplate generalization of the `Provider` state management solution.
+At a high level, `SharedValue` puts your variables in an intelligent "container" that is flutter-aware.
+
+It can be viewed as a low-boilerplate generalization of the `Provider` state management solution.
 
 ## Usage
 
 *1. Initialize*
     
 ```dart
-main() {
-    // Insert Shared Value into the widget tree.
-    runApp(SharedValue.wrapApp(MyApp()));
-}
+// This global SharedValue can be shared across the entire app
+final SharedValue<int> counter = SharedValue(
+  value: 0, // initial value (optional)
+);
 
-// Create a `SharedValue` object that holds the value of our counter.
-var counter = SharedValue(value: 0);
+main() {
+  runApp(
+    // don't forget this!
+    SharedValue.wrapApp(
+      MyApp(),
+    ),
+  );
+}
 ```
 
 *2. Use*
 
+Unlike other state management solutions,
+SharedValue works everywhere you'd expect dart code to work, even without a `BuildContext`.
+
 ```dart
-// Use [counter] anywhere, even without a `BuildContext`
+// Read [counter]
 print(counter.value);
 
-// Update [counter] anywhere.
-counter.update((value) => value + 1);
+// Update [counter]
+counter.value += 1;
 
-// Rebuild [MyWidget] whenever [counter] changes.
-class MyWidgetState extends State<MyWidget> {
-    @override
-    Widget build(BuildContext context) {
+// Use [counter] in widgets, and let shared value do the rest.
+Widget build(BuildContext context) {
 
-        // The .of(context) bit makes this widget rebuild everytime counter is changed
-        int counterValue = counter.of(context);
+  // The .of(context) bit makes this widget rebuild automatically
+  int counterValue = counter.of(context);
 
-        return Text("Counter: $counterValue");
-    }
+  return Text("Counter: $counterValue");
 }
 ```
 
@@ -47,15 +55,26 @@ class MyWidgetState extends State<MyWidget> {
 
 ```dart
 // provide a shared_prefences key
-var counter = SharedValue(value: 0, key: "counter");
-
-// Store [counter]'s value to shared preferences
-await counter.store();
+final SharedValue<int> counter = SharedValue(
+  key: "counter", // disk storage key for shared_preferences (optional)
+  autosave: true, // autosave to shared prefs when value changes (optional)
+);
 
 // Load [counter]'s value from shared preferences
 await counter.load();
+
+// Store [counter]'s value to shared preferences (enabling `autosave` does this automatically)
+await counter.store();
+```
+
+*4. Be cool*
+
+Use `.$` as an alias for `.value` :)
+
+```
+print(counter.$);
 ```
 
 ## Efficiency
 
-Shared value is smart enough to only rebuild the widget that is using the shared value that was updated. No more, no less.
+Shared value is smart enough to only rebuild the widget that subscribes to updates using `.of(context)`, no more, no less.
