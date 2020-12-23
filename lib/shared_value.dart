@@ -126,6 +126,15 @@ class SharedValue<T> {
     }
   }
 
+  Future<void> waitUntil(bool Function(T) predicate) async {
+    // short-circuit if predicate already satisfied
+    if (predicate(value)) return;
+    // otherwise, run predicate on every change
+    await for (T value in this.stream) {
+      if (predicate(value)) break;
+    }
+  }
+
   /// Try to load the value stored at [key] in shared preferences.
   /// If no value is found, return immediately.
   /// Else, udpdate [value] and rebuild dependent widgets if it changed.
