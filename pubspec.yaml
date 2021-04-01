@@ -1,11 +1,11 @@
 name: shared_value
 description: A straightforward way to manage global state in flutter apps.
-version: 1.0.0
+version: 1.0.1
 author: Dev Aggarwal <devpxy@gmail.com>
 homepage: https://github.com/pycampers/flutter-global-state
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
