@@ -12,7 +12,7 @@ import 'manager_widget.dart';
 
 class SharedValue<T> {
   static final random = Random();
-  static StateManagerWidgetState stateManager;
+  static StateManagerWidgetState? stateManager;
   static final stateNonceMap = <SharedValue, double>{};
 
   /// Initalize Shared value.
@@ -22,21 +22,22 @@ class SharedValue<T> {
   /// This must be done exactly once for the whole application.
   static Widget wrapApp(Widget app) {
     stateManager = StateManagerWidgetState();
-    return StateManagerWidget(app, stateManager, stateNonceMap);
+    return StateManagerWidget(app, stateManager!, stateNonceMap);
   }
 
-  double nonce;
   T _value;
-  StreamController<T> _controller;
+
+  double? nonce;
+  StreamController<T>? _controller;
 
   /// The key to use for storing this value in shared preferences.
-  final String key;
+  final String? key;
 
   /// automatically save to shared preferences when the value changes
   final bool autosave;
 
-  SharedValue({this.key, T value, this.autosave = false}) {
-    _value = value;
+  SharedValue({this.key, required value, this.autosave = false})
+      : _value = value {
     _update(rebuild: false);
   }
 
@@ -59,7 +60,7 @@ class SharedValue<T> {
   }
 
   /// Rebuild all dependent widgets.
-  R setState<R>([R Function() fn]) {
+  R? setState<R>([R? Function()? fn]) {
     if (stateManager == null) {
       throw FlutterError.fromParts([
         ErrorSummary("SharedValue was not initalized."),
@@ -73,7 +74,7 @@ class SharedValue<T> {
       ]);
     }
 
-    R ret = fn?.call();
+    R? ret = fn?.call();
 
     if (ret is Future) {
       ret.then((_) {
@@ -99,7 +100,7 @@ class SharedValue<T> {
   /// A stream of [value]s that gets updated everytime the internal value is changed.
   Stream<T> get stream {
     _controller ??= StreamController.broadcast();
-    return _controller.stream;
+    return _controller!.stream;
   }
 
   /// Update [value] using the return value of [fn],
@@ -111,11 +112,11 @@ class SharedValue<T> {
   void _update({rebuild: true}) {
     // update the nonce
     nonce = random.nextDouble();
-    stateNonceMap[this] = nonce;
+    stateNonceMap[this] = nonce!;
 
     if (rebuild) {
       // rebuild state manger widget
-      stateManager.rebuild();
+      stateManager?.rebuild();
     }
 
     // add value to stream
@@ -141,7 +142,7 @@ class SharedValue<T> {
   Future<void> load() async {
     assert(key != null);
     SharedPreferences pref = await SharedPreferences.getInstance();
-    String str = pref.getString(key);
+    String? str = pref.getString(key!);
     if (str == null) return;
     value = deserialize(str);
   }
@@ -150,7 +151,7 @@ class SharedValue<T> {
   Future<void> save() async {
     assert(key != null);
     SharedPreferences pref = await SharedPreferences.getInstance();
-    await pref.setString(key, serialize(_value));
+    await pref.setString(key!, serialize(_value));
   }
 
   /// serialize [obj] of type [T] for shared preferences.

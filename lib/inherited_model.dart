@@ -6,9 +6,9 @@ class SharedValueInheritedModel extends InheritedModel<SharedValue> {
   final Map<SharedValue, double> stateNonceMap;
 
   const SharedValueInheritedModel({
-    Key key,
-    Widget child,
-    @required this.stateNonceMap,
+    Key? key,
+    required Widget child,
+    required this.stateNonceMap,
   }) : super(key: key, child: child);
 
   // fallback to updateShouldNotifyDependent()

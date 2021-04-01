@@ -10,7 +10,7 @@ final SharedValue<int> counter = SharedValue(
   autosave: true, // autosave to shared prefs when value changes
 );
 
-final SharedValue<Duration> randomValue = SharedValue();
+final SharedValue<Duration> randomValue = SharedValue(value: Duration.zero);
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
