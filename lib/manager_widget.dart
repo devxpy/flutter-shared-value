@@ -17,24 +17,21 @@ class StateManagerWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  StateManagerWidgetState createState() {
-    return state;
-  }
+  StateManagerWidgetState createState() => state;
 }
 
 class StateManagerWidgetState extends State<StateManagerWidget> {
-  Future<bool> rebuild() async {
-    if (!mounted) return false;
+  Future<void> rebuild() async {
+    if (!mounted) return;
 
     // if there's a current frame,
     if (SchedulerBinding.instance?.schedulerPhase != SchedulerPhase.idle) {
       // wait for the end of that frame.
       await SchedulerBinding.instance?.endOfFrame;
-      if (!mounted) return false;
+      if (!mounted) return;
     }
 
     setState(() {});
-    return true;
   }
 
   @override

@@ -12,8 +12,11 @@ import 'manager_widget.dart';
 
 class SharedValue<T> {
   static final random = Random();
-  static StateManagerWidgetState? stateManager;
+  static late final StateManagerWidgetState stateManager =
+      StateManagerWidgetState();
   static final stateNonceMap = <SharedValue, double>{};
+
+  static bool didWrap = false;
 
   /// Initalize Shared value.
   ///
@@ -21,8 +24,8 @@ class SharedValue<T> {
   ///
   /// This must be done exactly once for the whole application.
   static Widget wrapApp(Widget app) {
-    stateManager = StateManagerWidgetState();
-    return StateManagerWidget(app, stateManager!, stateNonceMap);
+    didWrap = true;
+    return StateManagerWidget(app, stateManager, stateNonceMap);
   }
 
   T _value;
@@ -61,7 +64,7 @@ class SharedValue<T> {
 
   /// Rebuild all dependent widgets.
   R? setState<R>([R? Function()? fn]) {
-    if (stateManager == null) {
+    if (!didWrap) {
       throw FlutterError.fromParts([
         ErrorSummary("SharedValue was not initalized."),
         ErrorHint(
@@ -116,7 +119,7 @@ class SharedValue<T> {
 
     if (rebuild) {
       // rebuild state manger widget
-      stateManager?.rebuild();
+      stateManager.rebuild();
     }
 
     // add value to stream
