@@ -39,7 +39,7 @@ class SharedValue<T> {
   /// automatically save to shared preferences when the value changes
   final bool autosave;
 
-  SharedValue({this.key, required value, this.autosave = false})
+  SharedValue({this.key, required T value, this.autosave = false})
       : _value = value {
     _update(rebuild: false);
   }
