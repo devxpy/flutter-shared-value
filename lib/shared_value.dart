@@ -44,19 +44,19 @@ class SharedValue<T> {
     _update(rebuild: false);
   }
 
-  /// Alias for [value]
-  T get $ => value;
-
-  /// Alias for [value]
-  set $(T newValue) {
-    value = newValue;
-  }
+  // /// Alias for [value]
+  // T get $ => value;
+  //
+  // /// Alias for [value]
+  // set $(T newValue) {
+  //   value = newValue;
+  // }
 
   /// The value held by this state.
-  T get value => _value;
+  T get $ => _value;
 
-  /// Update [value] and rebuild the dependent widgets if it changed.
-  set value(T newValue) {
+  /// Update the value and rebuild the dependent widgets if it changed.
+  set $(T newValue) {
     setState(() {
       _value = newValue;
     });
@@ -109,7 +109,7 @@ class SharedValue<T> {
   /// Update [value] using the return value of [fn],
   /// and rebuild the dependent widgets if it changed.
   void update(T Function(T) fn) {
-    value = fn(_value);
+    $ = fn(_value);
   }
 
   void _update({rebuild: true}) {
@@ -123,20 +123,21 @@ class SharedValue<T> {
     }
 
     // add value to stream
-    _controller?.add(value);
+    _controller?.add($);
 
     if (autosave) {
       save();
     }
   }
 
-  Future<void> waitUntil(bool Function(T) predicate) async {
+  Future<T> waitUntil(bool Function(T) predicate) async {
     // short-circuit if predicate already satisfied
-    if (predicate(value)) return;
+    if (predicate($)) return $;
     // otherwise, run predicate on every change
     await for (T value in this.stream) {
       if (predicate(value)) break;
     }
+    return $;
   }
 
   /// Try to load the value stored at [key] in shared preferences.
@@ -147,7 +148,7 @@ class SharedValue<T> {
     SharedPreferences pref = await SharedPreferences.getInstance();
     String? str = pref.getString(key!);
     if (str == null) return;
-    value = deserialize(str);
+    $ = deserialize(str);
   }
 
   /// Store the current [value] at [key] in shared preferences.

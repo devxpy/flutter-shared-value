@@ -2,8 +2,8 @@
 
 # Shared Value
 
-A wrapper over [InheritedModel](https://api.flutter.dev/flutter/widgets/InheritedModel-class.html),
- this module allows you to easily manage global state in flutter apps.
+A wrapper over [InheritedModel](https://api.flutter.dev/flutter/widgets/InheritedModel-class.html), this module allows
+you to easily manage global state in flutter apps.
 
 At a high level, `SharedValue` puts your variables in an intelligent "container" that is flutter-aware.
 
@@ -12,9 +12,14 @@ It can be viewed as a low-boilerplate generalization of the `Provider` state man
 ## Usage
 
 *1. Initialize*
-    
+
+**IMPORTANT**: Always declare SharedValue variables as `final`, so you don't accidentally over-write the SharedValue
+object
+(which you generally don't want to do.)
+
 ```dart
 // This global SharedValue can be shared across the entire app
+// IMPORTANT: Variable declared as final
 final SharedValue<int> counter = SharedValue(
   value: 0, // initial value (optional)
 );
@@ -31,19 +36,20 @@ main() {
 
 *2. Use*
 
-Unlike other state management solutions,
-SharedValue works everywhere you'd expect dart code to work, even without a `BuildContext`.
+Unlike other state management solutions, SharedValue works everywhere you'd expect dart code to work, even without
+a `BuildContext`.
 
 ```dart
 // Read [counter]
-print(counter.value);
+print
+(
+counter.$);
 
 // Update [counter]
-counter.value += 1;
+counter.$ += 1;
 
 // Use [counter] in widgets, and let shared value do the rest.
 Widget build(BuildContext context) {
-
   // The .of(context) bit makes this widget rebuild automatically
   int counterValue = counter.of(context);
 
@@ -67,14 +73,7 @@ await counter.load();
 await counter.store();
 ```
 
-*4. Be cool*
-
-Use `.$` as an alias for `.value` :)
-
-```
-print(counter.$);
-```
-
 ## Efficiency
 
-Shared value is smart enough to only rebuild the widget that subscribes to updates using `.of(context)`, no more, no less.
+Shared value is smart enough to only rebuild the widget that subscribes to updates using `.of(context)`, no more, no
+less.
