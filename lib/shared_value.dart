@@ -44,14 +44,6 @@ class SharedValue<T> {
     _update(rebuild: false);
   }
 
-  // /// Alias for [value]
-  // T get $ => value;
-  //
-  // /// Alias for [value]
-  // set $(T newValue) {
-  //   value = newValue;
-  // }
-
   /// The value held by this state.
   T get $ => _value;
 
@@ -100,13 +92,19 @@ class SharedValue<T> {
     return _value;
   }
 
-  /// A stream of [value]s that gets updated everytime the internal value is changed.
+  /// A stream of [$]s that gets updated everytime the internal value is changed.
   Stream<T> get stream {
     _controller ??= StreamController.broadcast();
     return _controller!.stream;
   }
 
-  /// Update [value] using the return value of [fn],
+  /// Set [$] to [value], but only if they're different
+  void setIfChanged(T value) {
+    if (value == $) return;
+    $ = value;
+  }
+
+  /// Set [$] to the return value of [fn],
   /// and rebuild the dependent widgets if it changed.
   void update(T Function(T) fn) {
     $ = fn(_value);
@@ -142,7 +140,7 @@ class SharedValue<T> {
 
   /// Try to load the value stored at [key] in shared preferences.
   /// If no value is found, return immediately.
-  /// Else, udpdate [value] and rebuild dependent widgets if it changed.
+  /// Else, udpdate [$] and rebuild dependent widgets if it changed.
   Future<void> load() async {
     assert(key != null);
     SharedPreferences pref = await SharedPreferences.getInstance();
@@ -151,7 +149,7 @@ class SharedValue<T> {
     $ = deserialize(str);
   }
 
-  /// Store the current [value] at [key] in shared preferences.
+  /// Store the current [$] at [key] in shared preferences.
   Future<void> save() async {
     assert(key != null);
     SharedPreferences pref = await SharedPreferences.getInstance();
