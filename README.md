@@ -67,13 +67,13 @@ final SharedValue<int> counter = SharedValue(
   autosave: true, // autosave to shared prefs when value changes (optional)
 );
 
-// Load [counter]'s value from shared preferences
-await
-counter.load();
+void main() async {
+  // Load [counter]'s value from shared preferences
+  await counter.load();
 
-// Store [counter]'s value to shared preferences (enabling `autosave` does this automatically)
-await
-counter.store();
+  // Store [counter]'s value to shared preferences (enabling `autosave` does this automatically)
+  await counter.store();
+}
 ```
 
 ## Efficiency
