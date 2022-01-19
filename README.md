@@ -21,12 +21,13 @@ object
 // This global SharedValue can be shared across the entire app
 // IMPORTANT: Variable declared as final
 final SharedValue<int> counter = SharedValue(
-  value: 0, // initial value (optional)
+  // initial value
+  value: 0,
 );
 
-main() {
+void main() {
   runApp(
-    // don't forget this!
+    // Don't forget this bit of initialization code!
     SharedValue.wrapApp(
       MyApp(),
     ),
@@ -48,7 +49,7 @@ counter.$);
 // Update [counter]
 counter.$ += 1;
 
-// Use [counter] in widgets, and let shared value do the rest.
+// Use [counter] in widgets, and let SharedValue do the rest.
 Widget build(BuildContext context) {
   // The .of(context) bit makes this widget rebuild automatically
   int counterValue = counter.of(context);
@@ -67,10 +68,12 @@ final SharedValue<int> counter = SharedValue(
 );
 
 // Load [counter]'s value from shared preferences
-await counter.load();
+await
+counter.load();
 
 // Store [counter]'s value to shared preferences (enabling `autosave` does this automatically)
-await counter.store();
+await
+counter.store();
 ```
 
 ## Efficiency
