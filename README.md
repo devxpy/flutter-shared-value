@@ -63,8 +63,11 @@ Widget build(BuildContext context) {
 ```dart
 // provide a shared_prefences key
 final SharedValue<int> counter = SharedValue(
-  key: "counter", // disk storage key for shared_preferences (optional)
-  autosave: true, // autosave to shared prefs when value changes (optional)
+  // disk storage key for shared_preferences (optional)
+  key: "counter",
+
+  // autosave to shared prefs when value changes (optional)
+  autosave: true,
 );
 
 void main() async {
