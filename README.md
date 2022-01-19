@@ -41,13 +41,13 @@ Unlike other state management solutions, SharedValue works everywhere you'd expe
 a `BuildContext`.
 
 ```dart
-// Read [counter]
-print
-(
-counter.$);
+void main() {
+  // Read [counter]
+  print(counter.$);
 
-// Update [counter]
-counter.$ += 1;
+  // Update [counter]
+  counter.$ += 1;
+}
 
 // Use [counter] in widgets, and let SharedValue do the rest.
 Widget build(BuildContext context) {
