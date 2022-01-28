@@ -84,11 +84,13 @@ class SharedValue<T> {
 
   /// Get the value held by this state,
   /// and also rebuild the widget in [context] whenever [mutate] is called.
-  T of(BuildContext context) {
-    InheritedModel.inheritFrom<SharedValueInheritedModel>(
-      context,
-      aspect: this,
-    );
+  T of([BuildContext? context]) {
+    if (context != null) {
+      InheritedModel.inheritFrom<SharedValueInheritedModel>(
+        context,
+        aspect: this,
+      );
+    }
     return _value;
   }
 
