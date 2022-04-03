@@ -41,7 +41,7 @@ class SharedValue<T> {
 
   SharedValue({this.key, required T value, this.autosave = false})
       : _value = value {
-    _update(rebuild: false);
+    _update(init: true);
   }
 
   /// The value held by this state.
@@ -112,12 +112,12 @@ class SharedValue<T> {
     $ = fn(_value);
   }
 
-  void _update({rebuild: true}) {
+  void _update({init: false}) {
     // update the nonce
     nonce = random.nextDouble();
     stateNonceMap[this] = nonce!;
 
-    if (rebuild) {
+    if (!init) {
       // rebuild state manger widget
       stateManager.rebuild();
     }
@@ -125,7 +125,7 @@ class SharedValue<T> {
     // add value to stream
     _controller?.add($);
 
-    if (autosave) {
+    if (!init && autosave) {
       save();
     }
   }
