@@ -12,7 +12,7 @@ final SharedValue<int> counter = SharedValue(
 
 final SharedValue<Duration> randomValue = SharedValue(value: Duration.zero);
 
-Future<void> main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
   // load previous value from shared prefs
