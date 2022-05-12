@@ -1,7 +1,6 @@
 name: shared_value
 description: A straightforward way to manage global state in flutter apps.
 version: 2.1.3
-author: Dev Aggarwal <devpxy@gmail.com>
 homepage: https://github.com/scientifichackers/flutter-shared-value
 
 environment:
