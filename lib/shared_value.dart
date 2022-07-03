@@ -40,17 +40,25 @@ class SharedValue<T> {
   final bool autosave;
 
   /// customize encode function
-  final String Function(T val)? encode;
+  final String Function(T val)? customEncode;
 
   /// customize decode function
-  final T Function(String val)? decode;
+  final T Function(String val)? customDecode;
+
+  /// customize save function
+  final Future<void> Function(T val)? customSave;
+
+  /// customize load function
+  final Future<T> Function()? customLoad;
 
   SharedValue({
     this.key,
     required T value,
     this.autosave = false,
-    this.encode,
-    this.decode,
+    this.customEncode,
+    this.customDecode,
+    this.customLoad,
+    this.customSave,
   }) : _value = value {
     _update(init: true);
   }
@@ -155,31 +163,44 @@ class SharedValue<T> {
   /// If no value is found, return immediately.
   /// Else, udpdate [$] and rebuild dependent widgets if it changed.
   Future<void> load() async {
-    assert(key != null);
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    String? str = pref.getString(key!);
-    if (str == null) return;
-    $ = deserialize(str);
+    if (customLoad == null) {
+      assert(key != null);
+      final pref = await SharedPreferences.getInstance();
+      final str = pref.getString(key!);
+      if (str == null) return;
+      $ = deserialize(str);
+    } else {
+      $ = await customLoad!();
+    }
   }
 
   /// Store the current [$] at [key] in shared preferences.
   Future<void> save() async {
-    assert(key != null);
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    await pref.setString(key!, serialize(_value));
+    if (customSave == null) {
+      assert(key != null);
+      final toSave = serialize(_value);
+      final pref = await SharedPreferences.getInstance();
+      await pref.setString(key!, toSave);
+    } else {
+      await customSave!(_value);
+    }
   }
 
   /// serialize [obj] of type [T] for shared preferences.
   String serialize(T obj) {
-    return encode?.call(obj) ?? jsonEncode(obj);
+    if (customEncode == null) {
+      return jsonEncode(obj);
+    } else {
+      return customEncode!(obj);
+    }
   }
 
   /// desrialize [str] to an obj of type [T] for shared preferences.
   T deserialize(String str) {
-    if (decode == null) {
+    if (customDecode == null) {
       return jsonDecode(str) as T;
     } else {
-      return decode!(str);
+      return customDecode!(str);
     }
   }
 }
