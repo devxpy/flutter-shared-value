@@ -39,8 +39,19 @@ class SharedValue<T> {
   /// automatically save to shared preferences when the value changes
   final bool autosave;
 
-  SharedValue({this.key, required T value, this.autosave = false})
-      : _value = value {
+  /// customize encode function
+  final String Function(T val)? encode;
+
+  /// customize decode function
+  final T Function(String val)? decode;
+
+  SharedValue({
+    this.key,
+    required T value,
+    this.autosave = false,
+    this.encode,
+    this.decode,
+  }) : _value = value {
     _update(init: true);
   }
 
@@ -160,11 +171,15 @@ class SharedValue<T> {
 
   /// serialize [obj] of type [T] for shared preferences.
   String serialize(T obj) {
-    return jsonEncode(obj);
+    return encode?.call(obj) ?? jsonEncode(obj);
   }
 
   /// desrialize [str] to an obj of type [T] for shared preferences.
   T deserialize(String str) {
-    return jsonDecode(str) as T;
+    if (decode == null) {
+      return jsonDecode(str) as T;
+    } else {
+      return decode!(str);
+    }
   }
 }
